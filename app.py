@@ -17,25 +17,35 @@ else:
 
 templates = web.template.render("./templates", globals={},  base='base')
 
+
 def init_saml_auth(req):
     auth = OneLogin_Saml2_Auth(req, custom_base_path='./saml')
     return auth
 
+
+def prepare_request():
+    # If server is behind proxys or balancers use the HTTP_X_FORWARDED fields
+    data = web.input()
+    return {
+        'https': 'on' if web.ctx.protocol == 'https' else 'off',
+        'http_host': web.ctx.environ["SERVER_NAME"],
+        'server_port': web.ctx.environ["SERVER_PORT"],
+        'script_name': web.ctx.homepath,
+        'get_data': data.copy(),
+        'post_data': data.copy(),
+        # Uncomment if using ADFS as IdP, https://github.com/onelogin/python-saml/pull/144
+        # 'lowercase_urlencoding': True,
+        'query_string': web.ctx.query
+    }
+
+
 class IndexPage:
     def GET(self):
-        return self.load_page()
-
-    def POST(self):
-        return self.load_page()
-
-    def load_page(self):
         req = prepare_request()
         auth = init_saml_auth(req)
         errors = []
         not_auth_warn = False
         success_slo = False
-        attributes = False
-        paint_logout = False
 
         input_data = web.input()
 
@@ -53,7 +63,18 @@ class IndexPage:
                 session_index = session['samlSessionIndex']
 
             raise web.seeother(auth.logout(name_id=name_id, session_index=session_index))
-        elif 'acs' in input_data:
+
+        return self.load_page(errors, not_auth_warn, success_slo)
+
+    def POST(self):
+        req = prepare_request()
+        auth = init_saml_auth(req)
+        errors = []
+        not_auth_warn = False
+        success_slo = False
+        input_data = web.input()
+
+        if 'acs' in input_data:
             auth.process_response()
             errors = auth.get_errors()
             not_auth_warn = not auth.is_authenticated()
@@ -65,7 +86,7 @@ class IndexPage:
                 if 'RelayState' in input_data and self_url != input_data['RelayState']:
                     raise web.seeother(auth.redirect_to(input_data['RelayState']))
         elif 'sls' in input_data:
-            dscb = lambda: session.clear()
+            dscb = lambda: session.kill()
             url = auth.process_slo(delete_session_cb=dscb)
             errors = auth.get_errors()
             if len(errors) == 0:
@@ -73,6 +94,12 @@ class IndexPage:
                     return web.seeother(url)
                 else:
                     success_slo = True
+
+        return self.load_page(errors, not_auth_warn, success_slo)
+
+    def load_page(self, errors, not_auth_warn, success_slo):
+        paint_logout = False
+        attributes = False
 
         if 'samlUserdata' in session:
             paint_logout = True
@@ -87,6 +114,7 @@ class IndexPage:
             paint_logout=paint_logout
         )
 
+
 class AttrsPage:
     def GET(self):
         paint_logout = False
@@ -100,21 +128,6 @@ class AttrsPage:
         return templates.attrs(paint_logout=paint_logout,
                             attributes=attributes)
 
-
-def prepare_request():
-    # If server is behind proxys or balancers use the HTTP_X_FORWARDED fields
-    data = web.input()
-    return {
-        'https': 'on' if web.ctx.protocol == 'https' else 'off',
-        'http_host': web.ctx.environ["SERVER_NAME"],
-        'server_port': web.ctx.environ["SERVER_PORT"],
-        'script_name': web.ctx.homepath,
-        'get_data': data.copy(),
-        'post_data': data.copy(),
-        # Uncomment if using ADFS as IdP, https://github.com/onelogin/python-saml/pull/144
-        # 'lowercase_urlencoding': True,
-        'query_string': web.ctx.query
-    }
 
 class MetadataPage:
     def GET(self):
