@@ -54,6 +54,15 @@ class IndexPage:
         elif 'sso2' in input_data:
             return_to = web.ctx.homepath + '/attrs/'
             raise web.seeother(auth.login(return_to))
+        elif 'sls' in input_data:
+            dscb = lambda: session.kill()
+            url = auth.process_slo(delete_session_cb=dscb)
+            errors = auth.get_errors()
+            if len(errors) == 0:
+                if url is not None:
+                    return web.seeother(url)
+                else:
+                    success_slo = True
         elif 'slo' in input_data:
             name_id = None
             session_index = None
@@ -85,15 +94,6 @@ class IndexPage:
                 self_url = OneLogin_Saml2_Utils.get_self_url(req)
                 if 'RelayState' in input_data and self_url != input_data['RelayState']:
                     raise web.seeother(auth.redirect_to(input_data['RelayState']))
-        elif 'sls' in input_data:
-            dscb = lambda: session.kill()
-            url = auth.process_slo(delete_session_cb=dscb)
-            errors = auth.get_errors()
-            if len(errors) == 0:
-                if url is not None:
-                    return web.seeother(url)
-                else:
-                    success_slo = True
 
         return self.load_page(errors, not_auth_warn, success_slo)
 
