@@ -1,0 +1,30 @@
+{
+    "strict": true,
+    "debug": true,
+    "sp": {
+        "entityId": "mylocalhosttest",
+        "assertionConsumerService": {
+            "url": "http://localhost:8080/?acs",
+            "binding": "urn:oasis:names:tc:SAML:2.0:bindings:HTTP-POST"
+        },
+        "singleLogoutService": {
+            "url": "http://localhost:8080/?sls",
+            "binding": "urn:oasis:names:tc:SAML:2.0:bindings:HTTP-Redirect"
+        },
+        "NameIDFormat": "urn:oasis:names:tc:SAML:1.1:nameid-format:unspecified",
+        "x509cert": "MIICSDCCAbGgAwIBAgIBADANBgkqhkiG9w0BAQ0FADBBMQswCQYDVQQGEwJiZTEQMA4GA1UECAwHQmVsZ2l1bTEMMAoGA1UECgwDVUNMMRIwEAYDVQQDDAlsb2NhbGhvc3QwHhcNMTcwMTI3MTUwODAwWhcNMTgwMTI3MTUwODAwWjBBMQswCQYDVQQGEwJiZTEQMA4GA1UECAwHQmVsZ2l1bTEMMAoGA1UECgwDVUNMMRIwEAYDVQQDDAlsb2NhbGhvc3QwgZ8wDQYJKoZIhvcNAQEBBQADgY0AMIGJAoGBAMyH8jPvN4ITpBUSCbXql6yd9zFLvDzWY/kXaZtCvBM+piP89C7LnkakZbXAgZGs5NGXOPKFtMgHHiIkUDhdoJFHnUOfVBd76s/t0wtDMMyYM/2rApvCu4rZLNsrimA0BjcacjM3Cfzsh2UhwOCNb4k8wh2lH6BxVeL0gCNnln2XAgMBAAGjUDBOMB0GA1UdDgQWBBQVfO9G16w0FQ9lMJzY01yXjep14TAfBgNVHSMEGDAWgBQVfO9G16w0FQ9lMJzY01yXjep14TAMBgNVHRMEBTADAQH/MA0GCSqGSIb3DQEBDQUAA4GBAEvn/yA8W7C+W6Hsa9PuIG2Kjztn+7+Sbs/aUekQjGiOeLt5Dag4yQVW1s/HBULixf3oUV9UOgHSZ5hTcgnewFqVs8lluin8qvH1EbAzyF/SoX/AOoAc6fhwo60vTmYSlxz10D1TbAre4ps5qkcYCz2Mvke1o0SpeAgVAq3A7xgN",
+        "privateKey": "MIICdwIBADANBgkqhkiG9w0BAQEFAASCAmEwggJdAgEAAoGBAMyH8jPvN4ITpBUSCbXql6yd9zFLvDzWY/kXaZtCvBM+piP89C7LnkakZbXAgZGs5NGXOPKFtMgHHiIkUDhdoJFHnUOfVBd76s/t0wtDMMyYM/2rApvCu4rZLNsrimA0BjcacjM3Cfzsh2UhwOCNb4k8wh2lH6BxVeL0gCNnln2XAgMBAAECgYBr1nmzPDtuD+EBYwNPsSLLVnZQvXfAM+F+IgQCYos7MlryupocWitXX7Jow9kM77WtdCgIZsrMdERFCBRrw6G2RbdA1mk8uULqpamajW6KvVhyPlZBH6jx3+WUvehNywgvfH81uNEBZh6EMIrIuTkqSaRiRMAzU3dJGnVJifUzcQJBAPYTLisGcIihlJ7sEM+QyFmNkMqzVnX/MDFOz3WGETNSd1DQIVeZGcoTviwl5yRUltSjpCcYgEteNfczK0rJpVMCQQDUx88Wyk1rhFqNxURlxwtX1LP6ou8Ey/1rIoqzJjpSlUusbEBenPtxCzeKJHhhddcjAXpE6wvKrEukIHFl/hotAkEA0PxLKnlGm5N28F2WjWHt9bh4Lt6OYJpA6K+BG9OnygmQkc6hco7xSyDnUwFBxCYfDyqHYDi7xMaXWIFZlCObRwJAXLkhrm3EJRlNGMChGLUPZVvkflEoVW/LZDduN7lt6vTyQBYASvqfu9hGgKV57AadFL0dGhFPVyeT4tbcc7SylQJBAM8xlD0k3bhQUf09BuIPJiCMwDM/i1iEVTfW5m4w1GB+WfxI/PKotME/4eJkbd2OBREWBELZ6jLYZdk7zoJrk7I="
+    },
+    "idp": {
+        "entityId": "https://idp.testshib.org/idp/shibboleth",
+        "singleSignOnService": {
+            "url": "https://idp.testshib.org/idp/profile/SAML2/Redirect/SSO",
+            "binding": "urn:oasis:names:tc:SAML:2.0:bindings:HTTP-Redirect"
+        },
+        "singleLogoutService": {
+            "url": "https://idp.testshib.org/idp/profile/SAML2/Redirect/SLO",
+            "binding": "urn:oasis:names:tc:SAML:2.0:bindings:HTTP-Redirect"
+        },
+        "x509cert": "MIIDAzCCAeugAwIBAgIVAPX0G6LuoXnKS0Muei006mVSBXbvMA0GCSqGSIb3DQEBCwUAMBsxGTAXBgNVBAMMEGlkcC50ZXN0c2hpYi5vcmcwHhcNMTYwODIzMjEyMDU0WhcNMzYwODIzMjEyMDU0WjAbMRkwFwYDVQQDDBBpZHAudGVzdHNoaWIub3JnMIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAg9C4J2DiRTEhJAWzPt1S3ryhm3M2P3hPpwJwvt2q948vdTUxhhvNMuc3M3S4WNh6JYBs53R+YmjqJAII4ShMGNEmlGnSVfHorex7IxikpuDPKV3SNf28mCAZbQrX+hWA+ann/uifVzqXktOjs6DdzdBnxoVhniXgC8WCJwKcx6JO/hHsH1rG/0DSDeZFpTTcZHj4S9MlLNUtt5JxRzV/MmmB3ObaX0CMqsSWUOQeE4nylSlp5RWHCnx70cs9kwz5WrflnbnzCeHU2sdbNotBEeTHot6a2cj/pXlRJIgPsrL/4VSicPZcGYMJMPoLTJ8mdy6mpR6nbCmP7dVbCIm/DQIDAQABoz4wPDAdBgNVHQ4EFgQUUfaDa2mPi24x09yWp1OFXmZ2GPswGwYDVR0RBBQwEoIQaWRwLnRlc3RzaGliLm9yZzANBgkqhkiG9w0BAQsFAAOCAQEASKKgqTxhqBzROZ1eVy++si+eTTUQZU4+8UywSKLia2RattaAPMAcXUjO+3cYOQXLVASdlJtt+8QPdRkfp8SiJemHPXC8BES83pogJPYEGJsKo19l4XFJHPnPy+Dsn3mlJyOfAa8RyWBS80u5lrvAcr2TJXt9fXgkYs7BOCigxtZoR8flceGRlAZ4p5FPPxQR6NDYb645jtOTMVr3zgfjP6Wh2dt+2p04LG7ENJn8/gEwtXVuXCsPoSCDx9Y0QmyXTJNdV1aB0AhORkWPlFYwp+zOyOIR+3m1+pqWFpn0eT/HrxpdKa74FA3R2kq4R7dXe4G0kUgXTdqXMLRKhDgdmA=="
+    }
+}
